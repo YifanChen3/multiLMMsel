@@ -22,3 +22,5 @@ Suggests:
     rmarkdown,
     MASS
 VignetteBuilder: knitr
+URL: https://github.com/YifanChen3/multiLMMsel
+BugReports: https://github.com/YifanChen3/multiLMMsel/issues
