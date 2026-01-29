@@ -1,0 +1,117 @@
+---
+title: "A-quick-guide-to-multiLMMsel"
+author: "Yifan Chen"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{A-quick-guide-to-multiLMMsel}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+### Introduction
+`multiLMMsel` is a package for estimation and variable selection in moment-based multivariate high-dimensional linear mixed effects model. We consider the following linear mixed effects model
+\begin{equation}
+    y_{ij} =  \beta^\top  x_{ij} +  B_{i}^\top  z_{ij} + \epsilon_{ij}
+\end{equation}
+where $y_{ij} \in \mathbb{R}^d$ is a $d$-dimensional vector representing $d$ responses,  $x_{ij} \in \mathbb{R}^p$ and $z_{ij} \in \mathbb{R}^q$ are the predictors for the fixed effects and the $i$-th random effects respectively, $p$ is the number of fixed effects and $q$ is the number of random effects, $\epsilon_{ij} \in \mathbb{R}^d$ is a $d$-dimensional random error. $\beta \in \mathbb{R}^{p \times d}$ is the fixed effect coefficient matrix, $B_i\in \mathbb{R}^{q \times d}$ is a random matrix which represents the random effects coefficient for subject $i$. Denote the covariance structure of random errors as $\text{Cov}(\epsilon_{ij}) = \Sigma_{\epsilon} \in \mathbb{R}^{d\times d}$, and the covariance structure of random effects $B_i$ as $\Sigma_{B}=\text{Cov}\left[\text{vec}(B_i)\right]\in \mathbb{R}^{dq \times dq}.$ The `multiLMMsel` package implements a five-step estimation procedure to jointly estimate and select the fixed effects \(\beta\), the random-effect covariance matrix \(\Sigma_B\), and the error covariance matrix \(\Sigma_\epsilon\). Two tuning parameters, \(\lambda\) and \(\tau\), control the amount of regularization imposed on the fixed effects and random effects, respectively. 
+
+### Functions
+The package provides two main user-facing functions: `multiLMMsel()` and `multiLMMsel.cv()`. Before introducing their usage in detail, we first generate a synthetic dataset that will be used throughout this vignette.
+### Data Generation
+```{r}
+if (!requireNamespace("Matrix", quietly = TRUE)) {
+  stop("Package 'Matrix' is required for this vignette.")
+}
+if (!requireNamespace("MASS", quietly = TRUE)) {
+  stop("Package 'MASS' is required for this vignette.")
+}
+set.seed(1234)
+d <- 3 # Number of responses
+q <- 5 # Number of random effects
+dq <- d*q # Dimension for Sigma_B
+p <- 10 # Number of fixed effects
+m <- 50 # Number of subjects (groups)
+ni <- 6 # Number of repeated measurements in each group
+s <- 3 # Number of nonzero random effects
+rho <- 0.5
+M <- Matrix::bdiag(toeplitz(rho^seq(0, s-1)),matrix(0,q-s,q-s))
+R <- cbind(M,M,M)
+sigmaB <- rbind(R,R,R) # True Sigma_B
+rho <- 0.75
+sigmaE <- toeplitz(rho^seq(0, d - 1)) # True Sigma_E
+id <- rep(1:m,each=ni) # ID (labels) for groups
+m <- length(unique(id)) # Number of subjects (groups)
+N <- length(id) # Total number of observations
+epsilon <- MASS::mvrnorm(N,rep(0,d),sigmaE) # Random error matrix
+vecB <- MASS::mvrnorm(m,rep(0,dq),sigmaB) # Vectorized B_i for i=1,...,m
+B <- do.call(rbind,lapply(1:nrow(vecB), function(i) {
+ matrix(vecB[i, ], nrow = q, ncol = d, byrow = FALSE)
+}))                                   # Random effects B
+Z <- matrix(rnorm(N*q),nrow = N,ncol = q) # Random effects predictor matrix
+X <- matrix(rnorm(N*p),nrow = N,ncol = p) # Fixed effects predictor matrix
+beta <- matrix(c(1,-1,2,rep(0,7),-1,2,-1,rep(0,7),1,1,2,rep(0,7)),
+               nrow = p,ncol = d)         # True beta
+Z_list <- lapply(split(seq_len(nrow(Z)), id),
+                function(idx) Z[idx, , drop = FALSE])
+Z_long <- Matrix::bdiag(lapply(Z_list, as.matrix)) 
+Y <- X %*% beta + as.matrix(Z_long) %*% B + epsilon # Response Y matrix
+```
+Our primary interest is to estimate and select for $\Sigma_B$ and $\beta$. Below, we display the true $\Sigma_B$ and $\beta$ matrix used to generate the data.
+```{r}
+sigmaB
+beta
+```
+### multiLMMsel.cv() Function
+The function `multiLMMsel.cv()` performs sequential cross-validation over a grid of tuning parameters \(\lambda\) and \(\tau\). We first generate a sequence of $\lambda$ and $\tau$ respectively.
+```{r}
+lambda.max <- 5000
+lambda.min <- lambda.max/100
+length.out <- 30
+lambdas <- exp(seq(log(lambda.max),log(lambda.min),length.out=length.out))
+
+tau.max <- 1
+tau.min <- tau.max/100
+length.out <- 30
+taus <- seq(tau.max,tau.min,length.out=length.out)
+```
+Then, we fit the `multiLMMsel.cv()` function to obtain the estimates of $\Sigma_B$ and $\beta$. Note that An optional parameter \(\alpha\) controls the selection rule for \(\lambda\): setting \(\alpha = 1\) corresponds to the 1-SE rule, which favors a more parsimonious model, while \(\alpha = 0\) selects the tuning parameter that maximizes the likelihood. More generally, any nonnegative value of \(\alpha\) can be used.
+```{r, results='hide'}
+library(multiLMMsel)
+result.sim <- multiLMMsel.cv(Y,Z,X,lambdas,taus,id = id,sigmaB = sigmaB,
+                             sigmaE = sigmaE,beta=beta,alpha = 1)
+``` 
+After fitting the model, the resulting object contains the estimated random-effect covariance matrix, error covariance matrix, fixed-effect coefficients, and the selected tuning parameters.
+```{r}
+result.sim$SigmaB
+result.sim$SigmaE
+result.sim$beta
+result.sim$lambda.optimal
+result.sim$tau.optimal
+```
+Moreover, if we have the true $\Sigma_B$ and true $\beta$, we can also obtain the Frobenius norm of the estimation error and F1 score from the result.
+```{r}
+c(result.sim$fnorm.B,result.sim$F1.B,result.sim$fnorm.beta,result.sim$F1.beta)
+```
+
+### multiLMMsel() Function
+If one just wants to fit the model using a single pair of tuning parameters, rather than performing cross-validation, the function `multiLMMsel()` can be used directly. For example, in the previous data, if we just want to use $\lambda = (200,200,200)$ (since we have $d = 3$ responses) and $\tau = 0.2$ to fit the model, we can use
+```{r}
+lambda <- c(200,200,200)
+tau <- 0.2
+result <- multiLMMsel(Y,Z,X,lambda,tau,id = id)
+```
+Still, we can obtain the estimates from the result.
+```{r}
+result$SigmaB
+result$SigmaE
+result$beta
+```
+
+

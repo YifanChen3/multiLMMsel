@@ -1,0 +1,24 @@
+Package: multiLMMsel
+Title: Variable Selection in Multivariate High-Dimensional Mixed-Effect Models
+Version: 0.0.3
+Authors@R: 
+    person("Yifan", "Chen", , "ychen300@ucsb.edu", role = c("aut", "cre"))
+Description: We propose a moment-based variable selection method for multivariate high-dimensional linear mixed-effects model. By formulating moment equations for cross-products of residuals and inducing sparsity in the covariance matrix of random effects through its diagonal, we reduce the selection problem to a set of smooth convex optimization problems solvable via proximal gradient descent.
+License: MIT + file LICENSE
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.2.3
+LinkingTo: 
+    Rcpp,
+    RcppArmadillo
+Imports: 
+    Rcpp,
+    RSpectra,
+    Matrix,
+    glmnet,
+    methods
+Suggests: 
+    knitr,
+    rmarkdown,
+    MASS
+VignetteBuilder: knitr
