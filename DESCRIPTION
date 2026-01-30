@@ -1,6 +1,6 @@
 Package: multiLMMsel
 Title: Variable Selection in Multivariate High-Dimensional Mixed-Effect Models
-Version: 0.0.4
+Version: 0.0.5
 Authors@R: 
     person("Yifan", "Chen", , "ychen300@ucsb.edu", role = c("aut", "cre"))
 Description: We propose a moment-based variable selection method for multivariate high-dimensional linear mixed-effects model. By formulating moment equations for cross-products of residuals and inducing sparsity in the covariance matrix of random effects through its diagonal, we reduce the selection problem to a set of smooth convex optimization problems solvable via proximal gradient descent.

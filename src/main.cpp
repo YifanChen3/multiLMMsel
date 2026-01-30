@@ -22,7 +22,7 @@ arma::sp_mat kron_iv(int n, const arma::mat& u) {
 
     // Fill the result matrix: Each block row corresponds to the identity matrix row multiplied by v
     for (int i = 0; i < n; ++i) {
-        result(span(i * m, (i + 1) * m - 1),i) = v;
+        result(arma::span(i * m, (i + 1) * m - 1),i) = v;
     }
 
     return arma::sp_mat(result);
@@ -58,8 +58,8 @@ arma::mat diag_ww(const arma::mat& Z, int i, int j, int k, const arma::ivec& nis
     int result_k_start = as<int>(z_indices_k["result_j_start"]) - 1;
     int result_k_end = as<int>(z_indices_k["result_j_end"]) - 1;
 
-    arma::mat zik = Z(result_i_k - 1, span(result_k_start,result_k_end));
-    arma::mat zij = Z(result_i_j - 1, span(result_j_start,result_j_end));
+    arma::mat zik = Z(result_i_k - 1, arma::span(result_k_start,result_k_end));
+    arma::mat zij = Z(result_i_j - 1, arma::span(result_j_start,result_j_end));
 
     return kron(zik.t() * zik, zij.t() * zij);
 }
@@ -88,10 +88,10 @@ arma::sp_mat triple_sum_transform(const arma::mat& Z, const arma::ivec& nis, int
     arma::sp_mat big_matrix(d*q*q, d*q*q);
     for(int i = 1; i <= q; i++){
         for(int j = 1; j <= q; j++){
-            arma::mat submatrix = block(span((i - 1) * q, i * q - 1),span((j - 1) * q, j * q - 1));
+            arma::mat submatrix = block(arma::span((i - 1) * q, i * q - 1),arma::span((j - 1) * q, j * q - 1));
             arma::sp_mat new_block = arma::kron(I,arma::sp_mat(submatrix));
-            big_matrix(span((i - 1) * d * q, i * d * q - 1),
-                       span((j - 1) * d * q, j * d * q - 1)) = new_block;
+            big_matrix(arma::span((i - 1) * d * q, i * d * q - 1),
+                       arma::span((j - 1) * d * q, j * d * q - 1)) = new_block;
         }
     }
     return big_matrix;
@@ -133,7 +133,7 @@ arma::sp_mat double_sum_z_b(const arma::mat& Z, const arma::mat& sigmaB, const a
             int result_j_start = as<int>(z_indices["result_j_start"]) - 1;
             int result_j_end = as<int>(z_indices["result_j_end"]) - 1;
 
-            arma::mat submatrix = Z(result_i - 1, span(result_j_start,result_j_end));
+            arma::mat submatrix = Z(result_i - 1, arma::span(result_j_start,result_j_end));
             arma::sp_mat kron_sub = kron_iv(d, submatrix);
             result += kron_sub.t() * sigmaB * kron_sub;
         }
@@ -161,8 +161,8 @@ arma::sp_mat triple_sum_y(const arma::mat& Y, const arma::mat& Z, const arma::ma
                     int result_k_start = as<int>(z_indices_k["result_j_start"]) - 1;
                     int result_k_end = as<int>(z_indices_k["result_j_end"]) - 1;
 
-                    arma::mat submatrix_j = Z(result_i_j, span(result_j_start,result_j_end));
-                    arma::mat submatrix_k = Z(result_i_k, span(result_k_start,result_k_end));
+                    arma::mat submatrix_j = Z(result_i_j, arma::span(result_j_start,result_j_end));
+                    arma::mat submatrix_k = Z(result_i_k, arma::span(result_k_start,result_k_end));
 
                     arma::sp_mat kron_j = kron_iv(d, submatrix_j);
                     arma::sp_mat kron_k = kron_iv(d, submatrix_k);
@@ -201,12 +201,12 @@ arma::mat cov_yi(const arma::mat& Z, const arma::mat& sigmaB, const arma::mat& s
             int result_k_start = as<int>(z_indices_k["result_j_start"]) - 1;
             int result_k_end = as<int>(z_indices_k["result_j_end"]) - 1;
 
-            arma::mat zik = Z(result_i_k - 1, span(result_k_start,result_k_end));
-            arma::mat zij = Z(result_i_j - 1, span(result_j_start,result_j_end));
+            arma::mat zik = Z(result_i_k - 1, arma::span(result_k_start,result_k_end));
+            arma::mat zij = Z(result_i_j - 1, arma::span(result_j_start,result_j_end));
 
             arma::mat block = kron_iv(d,zij).t() * sigmaB * kron_iv(d,zik);
-            result(span((j - 1) * d, j * d - 1),
-                   span((k - 1) * d, k * d - 1)) = block;
+            result(arma::span((j - 1) * d, j * d - 1),
+                   arma::span((k - 1) * d, k * d - 1)) = block;
         }
     }
     arma::sp_mat I = arma::speye(ni, ni);
@@ -236,8 +236,8 @@ List triple_sum_for_estimate(const arma::mat& Y, const arma::mat& X, const arma:
                     int result_k_start = as<int>(z_indices_k["result_j_start"]) - 1;
                     int result_k_end = as<int>(z_indices_k["result_j_end"]) - 1;
 
-                    arma::mat Zij = Z(result_i_j, span(result_j_start,result_j_end));
-                    arma::mat Zik = Z(result_i_k, span(result_k_start,result_k_end));
+                    arma::mat Zij = Z(result_i_j, arma::span(result_j_start,result_j_end));
+                    arma::mat Zik = Z(result_i_k, arma::span(result_k_start,result_k_end));
 
                     arma::sp_mat Zij_tilde(n, d);
                     arma::sp_mat Zik_tilde(n, d);
@@ -250,8 +250,8 @@ List triple_sum_for_estimate(const arma::mat& Y, const arma::mat& X, const arma:
                             continue;
                         }
 
-                        Zij_tilde(span(A, A + A_l - 1), l) = Zij.elem(indices_l);
-                        Zik_tilde(span(A, A + A_l - 1), l) = Zik.elem(indices_l);
+                        Zij_tilde(arma::span(A, A + A_l - 1), l) = Zij.elem(indices_l);
+                        Zik_tilde(arma::span(A, A + A_l - 1), l) = Zik.elem(indices_l);
 
                         A = A + A_l;
                     }
