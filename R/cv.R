@@ -1,8 +1,8 @@
-#' Cross-validation for multiLMMsel
+#' Cross-validation for MORES
 #'
 #' Perform cross-validation over a sequence of \code{lambda}
 #' values (per response) and \code{tau} values to select tuning parameters for
-#' the multiLMMsel algorithm.
+#' the MORES algorithm.
 #'
 #' The function first selects the random-effects structure for each response,
 #' then refits the covariance matrices and finally tunes the fixed-effects
@@ -88,13 +88,13 @@
 #' length.out <- 30
 #' taus <- seq(tau.max,tau.min,length.out=length.out)
 #'
-#' result.sim <- multiLMMsel.cv(
+#' result.sim <- MORES.cv(
 #'   Y,Z,X,lambdas,taus,id = id,
 #'   sigmaB = sigmaB,sigmaE = sigmaE,beta=beta,alpha = 1
 #'   )
 #' }
 #'
-#' @useDynLib multiLMMsel, .registration = TRUE
+#' @useDynLib MORES, .registration = TRUE
 #' @importFrom Rcpp evalCpp
 #' @import Matrix
 #' @importFrom RSpectra eigs
@@ -102,7 +102,8 @@
 #' @importFrom stats rnorm sd
 #' @importFrom methods as
 #' @export
-multiLMMsel.cv <- function(Y,Z,X,lambda.path,tau.path,threshold=0.01,folds=5,id,gamma=2,gamma.weight=2,alpha=1,sigmaB=NULL,sigmaE=NULL,beta=NULL,eta=NULL,max.iterB=1000,tolB=1e-4,bootstrap.iter=30){
+MORES.cv <- function(Y,Z,X,lambda.path,tau.path,threshold=0.01,folds=5,id,gamma=2,gamma.weight=2,alpha=1,sigmaB=NULL,sigmaE=NULL,beta=NULL,eta=NULL,max.iterB=1000,tolB=1e-4,bootstrap.iter=30){
+  lambda.path <- sort(lambda.path,decreasing = TRUE)
   id <- as.character(id)
   ord <- order(match(id, unique(id)))
   id <- id[ord]

@@ -13,7 +13,7 @@ Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
 
 // kron_iv
 arma::sp_mat kron_iv(int n, const arma::mat& u);
-RcppExport SEXP _multiLMMsel_kron_iv(SEXP nSEXP, SEXP uSEXP) {
+RcppExport SEXP _MORES_kron_iv(SEXP nSEXP, SEXP uSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -25,7 +25,7 @@ END_RCPP
 }
 // y_ij
 int y_ij(int i, int j, const arma::ivec& nis);
-RcppExport SEXP _multiLMMsel_y_ij(SEXP iSEXP, SEXP jSEXP, SEXP nisSEXP) {
+RcppExport SEXP _MORES_y_ij(SEXP iSEXP, SEXP jSEXP, SEXP nisSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -38,7 +38,7 @@ END_RCPP
 }
 // z_ij
 List z_ij(int i, int j, const arma::ivec& nis, int q);
-RcppExport SEXP _multiLMMsel_z_ij(SEXP iSEXP, SEXP jSEXP, SEXP nisSEXP, SEXP qSEXP) {
+RcppExport SEXP _MORES_z_ij(SEXP iSEXP, SEXP jSEXP, SEXP nisSEXP, SEXP qSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -52,7 +52,7 @@ END_RCPP
 }
 // diag_ww
 arma::mat diag_ww(const arma::mat& Z, int i, int j, int k, const arma::ivec& nis, int q);
-RcppExport SEXP _multiLMMsel_diag_ww(SEXP ZSEXP, SEXP iSEXP, SEXP jSEXP, SEXP kSEXP, SEXP nisSEXP, SEXP qSEXP) {
+RcppExport SEXP _MORES_diag_ww(SEXP ZSEXP, SEXP iSEXP, SEXP jSEXP, SEXP kSEXP, SEXP nisSEXP, SEXP qSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -68,7 +68,7 @@ END_RCPP
 }
 // triple_sum_diag_ww
 arma::mat triple_sum_diag_ww(const arma::mat& Z, const arma::ivec& nis, int m, int q);
-RcppExport SEXP _multiLMMsel_triple_sum_diag_ww(SEXP ZSEXP, SEXP nisSEXP, SEXP mSEXP, SEXP qSEXP) {
+RcppExport SEXP _MORES_triple_sum_diag_ww(SEXP ZSEXP, SEXP nisSEXP, SEXP mSEXP, SEXP qSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -82,7 +82,7 @@ END_RCPP
 }
 // triple_sum_transform
 arma::sp_mat triple_sum_transform(const arma::mat& Z, const arma::ivec& nis, int m, int d, int q);
-RcppExport SEXP _multiLMMsel_triple_sum_transform(SEXP ZSEXP, SEXP nisSEXP, SEXP mSEXP, SEXP dSEXP, SEXP qSEXP) {
+RcppExport SEXP _MORES_triple_sum_transform(SEXP ZSEXP, SEXP nisSEXP, SEXP mSEXP, SEXP dSEXP, SEXP qSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -97,7 +97,7 @@ END_RCPP
 }
 // triple_sum_ww
 arma::sp_mat triple_sum_ww(const arma::mat& Z, const arma::ivec& nis, int m, int d, int q);
-RcppExport SEXP _multiLMMsel_triple_sum_ww(SEXP ZSEXP, SEXP nisSEXP, SEXP mSEXP, SEXP dSEXP, SEXP qSEXP) {
+RcppExport SEXP _MORES_triple_sum_ww(SEXP ZSEXP, SEXP nisSEXP, SEXP mSEXP, SEXP dSEXP, SEXP qSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -112,7 +112,7 @@ END_RCPP
 }
 // double_sum_y
 arma::mat double_sum_y(const arma::mat& Y, const arma::mat& X, const arma::mat& beta, const arma::ivec& nis, int m, int d);
-RcppExport SEXP _multiLMMsel_double_sum_y(SEXP YSEXP, SEXP XSEXP, SEXP betaSEXP, SEXP nisSEXP, SEXP mSEXP, SEXP dSEXP) {
+RcppExport SEXP _MORES_double_sum_y(SEXP YSEXP, SEXP XSEXP, SEXP betaSEXP, SEXP nisSEXP, SEXP mSEXP, SEXP dSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -128,7 +128,7 @@ END_RCPP
 }
 // double_sum_z_b
 arma::sp_mat double_sum_z_b(const arma::mat& Z, const arma::mat& sigmaB, const arma::ivec& nis, int m, int d, int q);
-RcppExport SEXP _multiLMMsel_double_sum_z_b(SEXP ZSEXP, SEXP sigmaBSEXP, SEXP nisSEXP, SEXP mSEXP, SEXP dSEXP, SEXP qSEXP) {
+RcppExport SEXP _MORES_double_sum_z_b(SEXP ZSEXP, SEXP sigmaBSEXP, SEXP nisSEXP, SEXP mSEXP, SEXP dSEXP, SEXP qSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -144,7 +144,7 @@ END_RCPP
 }
 // triple_sum_y
 arma::sp_mat triple_sum_y(const arma::mat& Y, const arma::mat& Z, const arma::mat& X, const arma::mat& beta, const arma::ivec& nis, int m, int d, int q);
-RcppExport SEXP _multiLMMsel_triple_sum_y(SEXP YSEXP, SEXP ZSEXP, SEXP XSEXP, SEXP betaSEXP, SEXP nisSEXP, SEXP mSEXP, SEXP dSEXP, SEXP qSEXP) {
+RcppExport SEXP _MORES_triple_sum_y(SEXP YSEXP, SEXP ZSEXP, SEXP XSEXP, SEXP betaSEXP, SEXP nisSEXP, SEXP mSEXP, SEXP dSEXP, SEXP qSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -162,7 +162,7 @@ END_RCPP
 }
 // cov_yi
 arma::mat cov_yi(const arma::mat& Z, const arma::mat& sigmaB, const arma::mat& sigmaE, const arma::ivec& nis, int i, int d, int q);
-RcppExport SEXP _multiLMMsel_cov_yi(SEXP ZSEXP, SEXP sigmaBSEXP, SEXP sigmaESEXP, SEXP nisSEXP, SEXP iSEXP, SEXP dSEXP, SEXP qSEXP) {
+RcppExport SEXP _MORES_cov_yi(SEXP ZSEXP, SEXP sigmaBSEXP, SEXP sigmaESEXP, SEXP nisSEXP, SEXP iSEXP, SEXP dSEXP, SEXP qSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -179,7 +179,7 @@ END_RCPP
 }
 // triple_sum_for_estimate
 List triple_sum_for_estimate(const arma::mat& Y, const arma::mat& X, const arma::mat& Z, const arma::mat& beta, const arma::ivec& nis, int m, int d, int q, const List& active_set_mat, int n);
-RcppExport SEXP _multiLMMsel_triple_sum_for_estimate(SEXP YSEXP, SEXP XSEXP, SEXP ZSEXP, SEXP betaSEXP, SEXP nisSEXP, SEXP mSEXP, SEXP dSEXP, SEXP qSEXP, SEXP active_set_matSEXP, SEXP nSEXP) {
+RcppExport SEXP _MORES_triple_sum_for_estimate(SEXP YSEXP, SEXP XSEXP, SEXP ZSEXP, SEXP betaSEXP, SEXP nisSEXP, SEXP mSEXP, SEXP dSEXP, SEXP qSEXP, SEXP active_set_matSEXP, SEXP nSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -199,22 +199,22 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_multiLMMsel_kron_iv", (DL_FUNC) &_multiLMMsel_kron_iv, 2},
-    {"_multiLMMsel_y_ij", (DL_FUNC) &_multiLMMsel_y_ij, 3},
-    {"_multiLMMsel_z_ij", (DL_FUNC) &_multiLMMsel_z_ij, 4},
-    {"_multiLMMsel_diag_ww", (DL_FUNC) &_multiLMMsel_diag_ww, 6},
-    {"_multiLMMsel_triple_sum_diag_ww", (DL_FUNC) &_multiLMMsel_triple_sum_diag_ww, 4},
-    {"_multiLMMsel_triple_sum_transform", (DL_FUNC) &_multiLMMsel_triple_sum_transform, 5},
-    {"_multiLMMsel_triple_sum_ww", (DL_FUNC) &_multiLMMsel_triple_sum_ww, 5},
-    {"_multiLMMsel_double_sum_y", (DL_FUNC) &_multiLMMsel_double_sum_y, 6},
-    {"_multiLMMsel_double_sum_z_b", (DL_FUNC) &_multiLMMsel_double_sum_z_b, 6},
-    {"_multiLMMsel_triple_sum_y", (DL_FUNC) &_multiLMMsel_triple_sum_y, 8},
-    {"_multiLMMsel_cov_yi", (DL_FUNC) &_multiLMMsel_cov_yi, 7},
-    {"_multiLMMsel_triple_sum_for_estimate", (DL_FUNC) &_multiLMMsel_triple_sum_for_estimate, 10},
+    {"_MORES_kron_iv", (DL_FUNC) &_MORES_kron_iv, 2},
+    {"_MORES_y_ij", (DL_FUNC) &_MORES_y_ij, 3},
+    {"_MORES_z_ij", (DL_FUNC) &_MORES_z_ij, 4},
+    {"_MORES_diag_ww", (DL_FUNC) &_MORES_diag_ww, 6},
+    {"_MORES_triple_sum_diag_ww", (DL_FUNC) &_MORES_triple_sum_diag_ww, 4},
+    {"_MORES_triple_sum_transform", (DL_FUNC) &_MORES_triple_sum_transform, 5},
+    {"_MORES_triple_sum_ww", (DL_FUNC) &_MORES_triple_sum_ww, 5},
+    {"_MORES_double_sum_y", (DL_FUNC) &_MORES_double_sum_y, 6},
+    {"_MORES_double_sum_z_b", (DL_FUNC) &_MORES_double_sum_z_b, 6},
+    {"_MORES_triple_sum_y", (DL_FUNC) &_MORES_triple_sum_y, 8},
+    {"_MORES_cov_yi", (DL_FUNC) &_MORES_cov_yi, 7},
+    {"_MORES_triple_sum_for_estimate", (DL_FUNC) &_MORES_triple_sum_for_estimate, 10},
     {NULL, NULL, 0}
 };
 
-RcppExport void R_init_multiLMMsel(DllInfo *dll) {
+RcppExport void R_init_MORES(DllInfo *dll) {
     R_registerRoutines(dll, NULL, CallEntries, NULL, NULL);
     R_useDynamicSymbols(dll, FALSE);
 }

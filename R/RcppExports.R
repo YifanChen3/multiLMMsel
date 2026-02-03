@@ -2,50 +2,50 @@
 # Generator token: 10BE3573-1514-4C36-9D1C-5A225CD40393
 
 kron_iv <- function(n, u) {
-    .Call(`_multiLMMsel_kron_iv`, n, u)
+    .Call(`_MORES_kron_iv`, n, u)
 }
 
 y_ij <- function(i, j, nis) {
-    .Call(`_multiLMMsel_y_ij`, i, j, nis)
+    .Call(`_MORES_y_ij`, i, j, nis)
 }
 
 z_ij <- function(i, j, nis, q) {
-    .Call(`_multiLMMsel_z_ij`, i, j, nis, q)
+    .Call(`_MORES_z_ij`, i, j, nis, q)
 }
 
 diag_ww <- function(Z, i, j, k, nis, q) {
-    .Call(`_multiLMMsel_diag_ww`, Z, i, j, k, nis, q)
+    .Call(`_MORES_diag_ww`, Z, i, j, k, nis, q)
 }
 
 triple_sum_diag_ww <- function(Z, nis, m, q) {
-    .Call(`_multiLMMsel_triple_sum_diag_ww`, Z, nis, m, q)
+    .Call(`_MORES_triple_sum_diag_ww`, Z, nis, m, q)
 }
 
 triple_sum_transform <- function(Z, nis, m, d, q) {
-    .Call(`_multiLMMsel_triple_sum_transform`, Z, nis, m, d, q)
+    .Call(`_MORES_triple_sum_transform`, Z, nis, m, d, q)
 }
 
 triple_sum_ww <- function(Z, nis, m, d, q) {
-    .Call(`_multiLMMsel_triple_sum_ww`, Z, nis, m, d, q)
+    .Call(`_MORES_triple_sum_ww`, Z, nis, m, d, q)
 }
 
 double_sum_y <- function(Y, X, beta, nis, m, d) {
-    .Call(`_multiLMMsel_double_sum_y`, Y, X, beta, nis, m, d)
+    .Call(`_MORES_double_sum_y`, Y, X, beta, nis, m, d)
 }
 
 double_sum_z_b <- function(Z, sigmaB, nis, m, d, q) {
-    .Call(`_multiLMMsel_double_sum_z_b`, Z, sigmaB, nis, m, d, q)
+    .Call(`_MORES_double_sum_z_b`, Z, sigmaB, nis, m, d, q)
 }
 
 triple_sum_y <- function(Y, Z, X, beta, nis, m, d, q) {
-    .Call(`_multiLMMsel_triple_sum_y`, Y, Z, X, beta, nis, m, d, q)
+    .Call(`_MORES_triple_sum_y`, Y, Z, X, beta, nis, m, d, q)
 }
 
 cov_yi <- function(Z, sigmaB, sigmaE, nis, i, d, q) {
-    .Call(`_multiLMMsel_cov_yi`, Z, sigmaB, sigmaE, nis, i, d, q)
+    .Call(`_MORES_cov_yi`, Z, sigmaB, sigmaE, nis, i, d, q)
 }
 
 triple_sum_for_estimate <- function(Y, X, Z, beta, nis, m, d, q, active_set_mat, n) {
-    .Call(`_multiLMMsel_triple_sum_for_estimate`, Y, X, Z, beta, nis, m, d, q, active_set_mat, n)
+    .Call(`_MORES_triple_sum_for_estimate`, Y, X, Z, beta, nis, m, d, q, active_set_mat, n)
 }
 
